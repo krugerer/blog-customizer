@@ -14,14 +14,13 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 20
+    - name: Install Playwright Browsers Globally
+      run: npx playwright install chromium --with-deps
     - name: Check if the repository is private
       if: ${{github.event.repository.private}}
       run: exit 1
     - name: Get testing lib
       run: set -eu && git clone https://github.com/Yandex-Practicum/tests-blog-customizer.git /tmp/tests-blog-customizer
-    - name: Install Playwright Browsers
-      run: npx playwright install chromium --with-deps
-      working-directory: /tmp/tests-blog-customizer
     - name: Run tests
       run: bash /tmp/tests-blog-customizer/run.sh
     - uses: actions/upload-artifact@v4
