@@ -11,7 +11,6 @@ import {
 import styles from './app.module.scss';
 
 export const App = () => {
-	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const [articleStyles, setArticleStyles] =
 		useState<ArticleStateType>(defaultArticleState);
 
@@ -27,11 +26,7 @@ export const App = () => {
 					'--bg-color': articleStyles.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm
-				isOpen={isSidebarOpen}
-				setIsOpen={setIsSidebarOpen}
-				onSubmit={setArticleStyles}
-			/>
+			<ArticleParamsForm onSubmit={setArticleStyles} />
 			<Article />
 		</main>
 	);

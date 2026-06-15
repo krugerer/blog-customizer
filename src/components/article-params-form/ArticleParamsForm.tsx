@@ -5,6 +5,7 @@ import {
 	defaultArticleState,
 	ArticleStateType,
 	fontFamilyOptions,
+	fontColors,
 	backgroundColors,
 	contentWidthArr,
 	fontSizeOptions,
@@ -20,49 +21,48 @@ import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 import styles from './ArticleParamsForm.module.scss';
 
 interface ArticleParamsFormProps {
-	isOpen: boolean;
-	setIsOpen: (isOpen: boolean) => void;
 	onSubmit: (styles: ArticleStateType) => void;
 }
 
-export const ArticleParamsForm = ({
-	isOpen,
-	setIsOpen,
-	onSubmit,
-}: ArticleParamsFormProps) => {
+export const ArticleParamsForm = ({ onSubmit }: ArticleParamsFormProps) => {
 	const [formState, setFormState] =
 		useState<ArticleStateType>(defaultArticleState);
+
+	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
 	const sidebarRef = useRef<HTMLDivElement>(null);
 
 	useOutsideClickClose({
-		isOpen,
+		isOpen: isSidebarOpen,
 		rootRef: sidebarRef,
-		onChange: setIsOpen,
+		onChange: setIsSidebarOpen,
 	});
 
 	const handleToggleSidebar = () => {
-		setIsOpen(!isOpen);
+		setIsSidebarOpen(!isSidebarOpen);
 	};
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		onSubmit(formState);
-		setIsOpen(false);
+		setIsSidebarOpen(false);
 	};
 
 	const handleReset = () => {
 		setFormState(defaultArticleState);
 		onSubmit(defaultArticleState);
-		setIsOpen(false);
+		setIsSidebarOpen(false);
 	};
 
 	return (
 		<>
-			<ArrowButton isOpen={isOpen} onClick={handleToggleSidebar} />
+			<ArrowButton isOpen={isSidebarOpen} onClick={handleToggleSidebar} />
 			<aside
 				ref={sidebarRef}
-				className={clsx(styles.container, isOpen && styles.container_open)}>
+				className={clsx(
+					styles.container,
+					isSidebarOpen && styles.container_open
+				)}>
 				<form className={styles.form} onSubmit={handleSubmit}>
 					<Text size={31} weight={800} uppercase>
 						Задайте параметры
@@ -82,6 +82,13 @@ export const ArticleParamsForm = ({
 							setFormState({ ...formState, fontSizeOption: newValue })
 						}
 						title='Размер шрифта'></RadioGroup>
+					<Select
+						options={fontColors}
+						selected={formState.fontColor}
+						onChange={(newValue) =>
+							setFormState({ ...formState, fontSizeOption: newValue })
+						}
+						title='Цвет шрифта'></Select>
 					<Separator />
 					<Select
 						options={backgroundColors}
