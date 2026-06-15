@@ -14,8 +14,6 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 20
-    - name: Install Playwright Browsers Globally
-      run: npx playwright install chromium --with-deps
     - name: Check if the repository is private
       if: ${{github.event.repository.private}}
       run: exit 1
