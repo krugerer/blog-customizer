@@ -86,7 +86,7 @@ export const ArticleParamsForm = ({ onSubmit }: ArticleParamsFormProps) => {
 						options={fontColors}
 						selected={formState.fontColor}
 						onChange={(newValue) =>
-							setFormState({ ...formState, fontSizeOption: newValue })
+							setFormState({ ...formState, fontColor: newValue })
 						}
 						title='Цвет шрифта'></Select>
 					<Separator />
